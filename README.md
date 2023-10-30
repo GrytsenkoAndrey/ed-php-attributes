@@ -80,7 +80,18 @@ readonly class UserRegistration
 }
 ```
 
+## Validation
 
+Into the `attributes.php` next line after the $userRegistration = ...
+
+```
+$validator = new Validator();
+$validator->validate($userRegistration);
+
+$errors = $validator->getErrors();
+```
+
+## Validator class
 
 
 
