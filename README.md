@@ -32,3 +32,34 @@ readonly public string $username,
 readonly public string $email
 ```
 
+## attributes.php file
+
+```
+<?php
+
+use App\DTO\UserRegistration;
+
+require_once 'vendor/autoload.php';
+
+$userRegistration = new UserRegistration('test', 'test@test.com');
+```
+
+It's acceptable to set
+
+```
+readonly class UserRegistration
+```
+
+and don't write it to each or property
+
+
+
+
+
+
+
+
+
+
+
+
