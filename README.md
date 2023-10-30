@@ -93,6 +93,75 @@ $errors = $validator->getErrors();
 
 ## Validator class
 
+### ValidationRuleInterface
+
+Required rule must implement ut
+```
+namespace App\Validation\Rules;
+
+interface ValidationRuleInterface
+{
+    public function getValidator():;
+}
+```
+
+### Required rule
+
+```
+namespace App\Validation\Rules
+
+use Attribute;
+
+#[Attribute]
+class Required implements ValidationRuleInterface
+{
+    public function getValidator()
+    {
+    }
+}
+```
+
+### Validation itself
+
+Into the `src\Validation`
+
+```
+<?php
+
+namespace App\Validation;
+
+class Validator
+{
+    private arrray $errors = [];
+    
+    public function validate(object $object): void
+    {
+        # instance a $reflection
+        $reflector = new ReflectionClass($object);
+        # loop over the reflector properties
+
+        # get the Attributes using $property->getAttributes()
+
+        # loop over the Attributes
+
+        # instance a PropertyValidator
+
+        # ask IF the property does not validate
+
+        # add the property to errros with a message
+                
+    }
+
+    public function getErrors()
+    {
+    }
+}
+
+```
+
+
+
+
 
 
 
