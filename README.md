@@ -52,7 +52,33 @@ readonly class UserRegistration
 
 and don't write it to each or property
 
+## Apply custom Attribute
 
+Where it can be applied:
+
+- classes and anonymous classes
+- properties and constants
+- methods and functions (inc. closure)
+- method and function parameters
+
+### Required validation rule
+
+```
+namespace App\DTO;
+
+use App\Validation\Rules\Required;
+
+readonly class UserRegistration
+{
+    public function __construct(
+        #[Required]
+        public string $username,
+        #[Required]
+        public string $email
+    ) {
+    }
+}
+```
 
 
 
