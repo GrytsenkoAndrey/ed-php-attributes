@@ -105,6 +105,35 @@ interface ValidationRuleInterface
 }
 ```
 
+### ValidatorInterface
+
+```
+<?php
+
+namespace App\Validation\Validators;
+
+intnerface ValidatorInterface
+{
+    public function validate($value);
+}
+```
+
+### RequiredValidator
+
+```
+<?php
+
+namespace App\Validation\Validators
+
+class RequiredValidator implement ValidatorInterface
+{
+    public function validate($value): bool
+    {
+         return !empty($value);
+    }
+}
+```
+
 ### Required rule
 
 ```
@@ -115,8 +144,9 @@ use Attribute;
 #[Attribute]
 class Required implements ValidationRuleInterface
 {
-    public function getValidator()
+    public function getValidator(): ValidatorInterface
     {
+        return new RequiredValidator();
     }
 }
 ```
@@ -139,17 +169,27 @@ class Validator
         # instance a $reflection
         $reflector = new ReflectionClass($object);
         # loop over the reflector properties
-
+        foreach ($reflector->getProperties() as $property) {
         # get the Attributes using $property->getAttributes()
-
+            $attributes = $property->getAttributes(
+                ValidationRuleInterface::class,
+                \ReflectionAttribute::IS_INSTANCEOF
+            );
         # loop over the Attributes
-
+            foreach ($attributes as $attribute) {
         # instance a PropertyValidator
-
+                $validator = $attribute->newInstance()->getValidator();
         # ask IF the property does not validate
-
+                if (!$validator->validate($property->getValue($object))) {
         # add the property to errros with a message
-                
+                    $this->errors[$property->getName()][] = sprintf(
+                        "Invalid value for '%s' using '%s' validation.",
+                        $property->getName(),
+                        $attribute->getName()
+                     );
+                }
+            }
+        }
     }
 
     public function getErrors()
